@@ -1,0 +1,30 @@
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+nbbuild/
+nbdist/
+.nb-gradle/
+vendor-pay/.DS_Store
+/vendor-management/src/main/resources/static/node_modules/
+
+
+logPath_IS_UNDEFINED/
+.DS_Store
+
+.idea/
