@@ -2,6 +2,8 @@ package com.uzhizhe.service;
 
 import com.uzhizhe.beans.User;
 
+import java.util.List;
+
 /**
  * @Desc
  * @Author qingjiang.li
@@ -23,4 +25,25 @@ public interface UserService {
      * @return
      */
     User add(User user);
+
+    /**
+     * remove
+     * @param uid
+     * @return
+     */
+    void remove(String uid);
+
+    /**
+     * user
+     * @param user
+     * @return
+     */
+    User update(User user);
+
+    /**
+     * query all user
+     * @return
+     */
+    List<User> queryAllUser();
+
 }

@@ -11,8 +11,17 @@
     <title>Title</title>
 </head>
 <body>
-<div id="uid">${user.uid}</div>
-<div id="userName">${user.userName}</div>
-<div id="age">${user.age}</div>
+<header>
+    <h3>User Info</h3>
+</header>
+<section>
+    <div id="uid">${user.uid}</div>
+    <div id="userName">${user.userName}</div>
+    <div id="age">${user.age}</div>
+    <div id="gender">${user.gender}</div>
+    <div id="address">${user.address}</div>
+    <div id="createTime">${user.createTime}</div>
+</section>
+
 </body>
 </html>

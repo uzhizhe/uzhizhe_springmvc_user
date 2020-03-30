@@ -1,9 +1,11 @@
 package com.uzhizhe.user.web.controller;
 
 import com.uzhizhe.beans.User;
+import com.uzhizhe.user.web.vo.UserVo;
 import com.uzhizhe.user.web.webservice.UserWebService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,29 +28,42 @@ public class UserController {
     @Autowired
     private UserWebService userWebService;
 
-    @RequestMapping(value = "user", method = RequestMethod.GET)
-    public @ResponseBody User getUser(@RequestParam String uid){
+    //query user by uid
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public @ResponseBody UserVo getUser(@RequestParam String uid) throws Exception{
         System.out.println("获取用户信息, uid:" + uid);
         ModelAndView modelAndView = new ModelAndView("userInfo");
-        User user = userWebService.findUser(uid);
-        System.out.println(user);
-        modelAndView.addObject("user", user);
-        return user;
+        UserVo userVo = userWebService.findUser(uid);
+        System.out.println(userVo);
+        modelAndView.addObject("user", userVo);
+        return userVo;
     }
 
+    //query all user
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView getUsers(){
         System.out.println("获取所有用户的信息 ~_~");
         ModelAndView modelAndView = new ModelAndView("userInfoList");
-        User user = userWebService.findUser("1001");
-        User user2 = userWebService.findUser("1002");
-        User user3 = userWebService.findUser("1003");
-        List<User> userList = new ArrayList<>();
-        userList.add(user);
-        userList.add(user2);
-        userList.add(user3);
-        modelAndView.addObject("userList", userList);
+        List<UserVo> userVoList = userWebService.queryAllUser();
+        modelAndView.addObject("userList", userVoList);
         return modelAndView;
     }
+
+    //add user
+    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    public ModelAndView addUser(UserVo userVo) throws Exception{
+        System.out.println("添加用户:" + userVo);
+        userWebService.addUser(userVo);
+        return getUsers();
+    }
+
+    //delete user by uid
+    @RequestMapping(value = "/user/delete", method = RequestMethod.GET)
+    public ModelAndView delUser(@RequestParam String uid) throws Exception{
+        System.out.println("删除用户:" + uid);
+        userWebService.removeUser(uid);
+        return getUsers();
+    }
+
 
 }

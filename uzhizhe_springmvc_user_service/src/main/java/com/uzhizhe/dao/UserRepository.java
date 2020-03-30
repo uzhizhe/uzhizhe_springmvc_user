@@ -15,4 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     User findFirstByUid(String uid);
 
+    int removeByUid(String uid);
+
+
+
 }

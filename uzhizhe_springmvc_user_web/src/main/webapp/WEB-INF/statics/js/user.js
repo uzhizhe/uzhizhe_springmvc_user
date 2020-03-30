@@ -3,10 +3,16 @@ $(document).ready(function(){
         $tr = $(this).next().children('tbody').children(':first');
         var index = $tr.children(':eq(0)').text();
         var uid = $tr.children(':eq(1)').text();
+
         var userName = $tr.children(':eq(2)').text();
         var age = $tr.children(':eq(3)').text();
+
+
         var html = "<tr><td>"+index+"</td><td>"+uid+"</td><td>"+userName+"</td><td>"+age+"</td></tr>";
-        $("#userBody").append(html)
+
+        $("#userBody").append(html);
+
+        console.log(Math.uuid(1));
     });
 
     $("#clickMe").click(function () {

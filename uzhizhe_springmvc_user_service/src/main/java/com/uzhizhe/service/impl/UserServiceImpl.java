@@ -5,6 +5,9 @@ import com.uzhizhe.dao.UserRepository;
 import com.uzhizhe.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @Desc
@@ -41,4 +44,36 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
+    /**
+     * remove
+     *
+     * @param uid
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void remove(String uid) {
+        userRepository.removeByUid(uid);
+    }
+
+    /**
+     * user
+     *
+     * @param user
+     * @return
+     */
+    @Override
+    public User update(User user) {
+        return userRepository.saveAndFlush(user);
+    }
+
+    /**
+     * query all user
+     *
+     * @return
+     */
+    @Override
+    public List<User> queryAllUser() {
+        return userRepository.findAll();
+    }
 }

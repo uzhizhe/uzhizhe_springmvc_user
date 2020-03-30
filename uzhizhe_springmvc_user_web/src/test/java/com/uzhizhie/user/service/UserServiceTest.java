@@ -72,12 +72,11 @@ public class UserServiceTest extends BaseTest {
             System.out.println("Save:" + save);
 
         }
+    }
 
-
-
-
-
-
+    @Test
+    public void test78() throws Exception {
+        userService.remove("1012");
     }
 
 }
