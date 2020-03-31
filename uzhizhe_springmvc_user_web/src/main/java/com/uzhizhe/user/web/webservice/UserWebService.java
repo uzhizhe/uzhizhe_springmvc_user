@@ -1,6 +1,8 @@
 package com.uzhizhe.user.web.webservice;
 
 import com.uzhizhe.beans.User;
+import com.uzhizhe.beans.bo.UserBo;
+import com.uzhizhe.beans.dto.PagedDTO;
 import com.uzhizhe.service.UserService;
 import com.uzhizhe.user.web.vo.UserVo;
 import com.uzhizhe.utils.CollectionUtil;
@@ -28,11 +30,12 @@ public class UserWebService {
 
     /**
      * find user by uid
+     *
      * @param uid
      * @return
      * @throws Exception
      */
-    public UserVo findUser(String uid) throws Exception{
+    public UserVo findUser(String uid) throws Exception {
         User user = userService.findUser(uid);
         if (user == null) {
             throw new RuntimeException("该用户不存在");
@@ -52,8 +55,28 @@ public class UserWebService {
         return userVo;
     }
 
+    public PagedDTO<UserVo> findUser(UserBo userBo) {
+        PagedDTO<UserVo> userVoPagedDTO = new PagedDTO<>();
+        List<UserVo> userVoList = new ArrayList<>();
+        PagedDTO<User> userPagedDTO = userService.findUser(userBo);
+        List<User> list = userPagedDTO.getList();
+        if (CollectionUtil.notBlank(list)) {
+            list.forEach(user -> {
+                UserVo userVo = new UserVo();
+                BeanUtils.copyProperties(user, userVo);
+                userVoList.add(userVo);
+            });
+        }
+        userVoPagedDTO.setTotalSize(userPagedDTO.getTotalSize());
+        userVoPagedDTO.setPage(userPagedDTO.getPage());
+        userVoPagedDTO.setPageSize(userPagedDTO.getPageSize());
+        userVoPagedDTO.setList(userVoList);
+        return userVoPagedDTO;
+    }
+
     /**
      * add user
+     *
      * @param userVo
      * @throws Exception
      */
@@ -62,7 +85,7 @@ public class UserWebService {
         User user = new User();
         Random random = new Random();
         String uid = String.valueOf(random.nextInt(100) + 100) + (random.nextInt(100) + 100) + String.format("%02d", random.nextInt(100));
-        System.out.println("UID:"+ uid);
+        System.out.println("UID:" + uid);
         user.setUid(uid);
         user.setUserName(userVo.getUserName());
         user.setAge(userVo.getAge());
@@ -77,14 +100,16 @@ public class UserWebService {
 
     /**
      * remove user by uid
+     *
      * @param uid
      */
-    public void removeUser(String uid){
+    public void removeUser(String uid) {
         userService.remove(uid);
     }
 
     /**
      * modify user
+     *
      * @param userVo
      * @throws Exception
      */
@@ -103,13 +128,14 @@ public class UserWebService {
 
     /**
      * query all user
+     *
      * @return
      */
-    public List<UserVo> queryAllUser(){
+    public List<UserVo> queryAllUser() {
         List<UserVo> result = new ArrayList<>();
         List<User> userList = userService.queryAllUser();
         if (CollectionUtil.notBlank(userList)) {
-            userList.forEach(user->{
+            userList.forEach(user -> {
                 UserVo userVo = new UserVo();
                 BeanUtils.copyProperties(user, userVo);
                 userVo.setPassword(null);
